@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: post-service
+  template:
+    metadata:
+      labels:
+        app: post-service
+    spec:
+      containers:
+      - name: post-service
+        image: nitishnandan/post-service:latest
+        ports:
+        - containerPort: 5000
