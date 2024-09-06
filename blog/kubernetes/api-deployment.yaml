@@ -17,6 +17,9 @@ spec:
         image: nitishnandan/api-service:latest
         ports:
         - containerPort: 4000
+        env:
+        - name: DB_HOST
+          value: db-service
 ---
 apiVersion: v1
 kind: Service
@@ -29,3 +32,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 4000
+
