@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chat App</title>
+    <style>
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 8px; margin-bottom: 2px; border: 1px solid #ddd; }
+        #messageInput { width: calc(100% - 22px); padding: 10px; }
+    </style>
+</head>
+<body>
+    <ul id="messages"></ul>
+    <input id="messageInput" placeholder="Type a message..." autocomplete="off" autofocus>
+    <script>
+        // Connect to WebSocket backend
+        const ws = new WebSocket(`ws://localhost:8081/ws`);
+        const messages = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+
+        ws.onmessage = (event) => {
+            const message = document.createElement('li');
+            message.textContent = event.data;
+            messages.appendChild(message);
+        };
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                ws.send(messageInput.value);
+                messageInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
